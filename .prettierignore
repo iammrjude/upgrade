@@ -1,0 +1,10 @@
+.github/workflows
+.github/ISSUE_TEMPLATE
+coverage/
+coverage.json
+deployments/
+scripts/
+artifacts/
+cache/
+typechain-types/
+.openzeppelin
