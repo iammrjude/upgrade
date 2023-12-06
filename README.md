@@ -8,6 +8,12 @@ cd upgrade
 yarn
 ```
 
+## Installation
+
+```bash
+yarn install
+```
+
 ## Local environment
 
 ```bash
