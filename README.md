@@ -3,8 +3,8 @@
 ## Setup
 
 ```bash
-git clone https://github.com/archangeltoken/staking.git
-cd staking
+git clone https://github.com/iammrjude/upgrade.git
+cd upgrade
 yarn
 ```
 
