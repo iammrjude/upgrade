@@ -3,8 +3,8 @@ const { ethers, upgrades } = require('hardhat')
 module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
   // type proxy address for upgrade contract
   // deployer must have upgrade access
-  // const upgradeProxy = null // mumbai: '0x4355f8f76674d27c4D6fE476Dfbb9dcbb858b098'
-  const upgradeProxy = '0x4355f8f76674d27c4D6fE476Dfbb9dcbb858b098'
+  // const upgradeProxy = null // mumbai: '0x536161A88a506E4687E6DAedA5270AE710A3A651'
+  const upgradeProxy = '0xB1c5f44b6473EE2fdd22e5B65B971A8455442112'
 
   const { save, get } = deployments
   const { deployer } = await getNamedAccounts()
@@ -25,10 +25,8 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
       // not deployed yet
     }
 
-    if (hre.network.name == 'polygon') {}
-
     const constructorArgs = [50,50, "0xF6f2D0A9F55C61240427A6AA9dE62419EC8539f8", "0x7F6cf0C863df72248606aB399D70C02A50AFd151"]
-    const extraArgs = ["0xbFb7af1d2450711A3187018973B395c6b14E0E3B", 1700757301, 1080, 420, 250000000000000000000000n]
+    const extraArgs = ["0xbFb7af1d2450711A3187018973B395c6b14E0E3B", 1701899204, 1080, 420, 250000000000000000000000n]
     const NORT = 4
     const rewardTokens = ["0xbFb7af1d2450711A3187018973B395c6b14E0E3B", "0x972Ac85E66d3daEa10C29E223B85e76954D36F81", "0xE857F4Ca293fb73547a06De6282ea78EfE5829fE", "0x16CE02bdeA3bdBbbe644b399A2834488D4B22684"]
     const staticRewardsInPool = ["100000000000000000000000","650000000000000000000000000000","300000000000000000000000","500000000000000000000000"]
