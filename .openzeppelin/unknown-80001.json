@@ -5,6 +5,11 @@
       "address": "0x536161A88a506E4687E6DAedA5270AE710A3A651",
       "txHash": "0x856c6bfdea7aeb1ba9f93fdd7a8d64a7ce3d41b2186b820d196cd3662a67f924",
       "kind": "uups"
+    },
+    {
+      "address": "0xd95bF25D8E63975523bd5ba7d340A05794B6e4c0",
+      "txHash": "0x0a70fc48ab25ebd6d0ed6f4d19f2d215d0c31cac3097f212be01a35386b3b888",
+      "kind": "uups"
     }
   ],
   "impls": {
@@ -238,6 +243,233 @@
     "7b53f384f7ba0bb4130610981be44fefb560e427d1bcb528e2d1c8adbec39645": {
       "address": "0x90C4705188EA90AD36E202eD23F44b0cD4b336b6",
       "txHash": "0x4d4348a746da892514640c732b2109e112b57e9da8923642ce2053d07c2f4219",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:39"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:44"
+          },
+          {
+            "contract": "ERC1967UpgradeUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\ERC1967\\ERC1967UpgradeUpgradeable.sol:211"
+          },
+          {
+            "contract": "UUPSUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\UUPSUpgradeable.sol:107"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:36"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:22"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:87"
+          },
+          {
+            "contract": "GabrielV3",
+            "label": "inPool",
+            "type": "t_mapping(t_address,t_mapping(t_uint256,t_bool))",
+            "src": "contracts\\GabrielV3.sol:19"
+          },
+          {
+            "contract": "GabrielV3",
+            "label": "sharks",
+            "type": "t_address",
+            "src": "contracts\\GabrielV3.sol:21"
+          },
+          {
+            "contract": "GabrielV3",
+            "label": "sPercent",
+            "type": "t_uint256",
+            "src": "contracts\\GabrielV3.sol:22"
+          },
+          {
+            "contract": "GabrielV3",
+            "label": "whales",
+            "type": "t_address",
+            "src": "contracts\\GabrielV3.sol:24"
+          },
+          {
+            "contract": "GabrielV3",
+            "label": "wPercent",
+            "type": "t_uint256",
+            "src": "contracts\\GabrielV3.sol:25"
+          },
+          {
+            "contract": "GabrielV3",
+            "label": "poolInfo",
+            "type": "t_array(t_struct(PoolInfo)1792_storage)dyn_storage",
+            "src": "contracts\\GabrielV3.sol:27"
+          },
+          {
+            "contract": "GabrielV3",
+            "label": "userInfo",
+            "type": "t_mapping(t_uint256,t_mapping(t_address,t_struct(UserInfo)1800_storage))",
+            "src": "contracts\\GabrielV3.sol:28"
+          }
+        ],
+        "types": {
+          "t_mapping(t_address,t_mapping(t_uint256,t_bool))": {
+            "label": "mapping(address => mapping(uint256 => bool))"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_mapping(t_uint256,t_bool)": {
+            "label": "mapping(uint256 => bool)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_bool": {
+            "label": "bool"
+          },
+          "t_array(t_struct(PoolInfo)1792_storage)dyn_storage": {
+            "label": "struct GabrielV3.PoolInfo[]"
+          },
+          "t_struct(PoolInfo)1792_storage": {
+            "label": "struct GabrielV3.PoolInfo",
+            "members": [
+              {
+                "label": "canStake",
+                "type": "t_bool"
+              },
+              {
+                "label": "canHarvest",
+                "type": "t_bool"
+              },
+              {
+                "label": "stakeToken",
+                "type": "t_contract(IERC20Upgradeable)800"
+              },
+              {
+                "label": "compounded",
+                "type": "t_uint256"
+              },
+              {
+                "label": "lockDuration",
+                "type": "t_uint256"
+              },
+              {
+                "label": "lockTime",
+                "type": "t_uint256"
+              },
+              {
+                "label": "maxStake",
+                "type": "t_uint256"
+              },
+              {
+                "label": "NORT",
+                "type": "t_uint256"
+              },
+              {
+                "label": "openTime",
+                "type": "t_uint256"
+              },
+              {
+                "label": "staked",
+                "type": "t_uint256"
+              },
+              {
+                "label": "unlockTime",
+                "type": "t_uint256"
+              },
+              {
+                "label": "unstaked",
+                "type": "t_uint256"
+              },
+              {
+                "label": "waitPeriod",
+                "type": "t_uint256"
+              },
+              {
+                "label": "harvestList",
+                "type": "t_array(t_address)dyn_storage"
+              },
+              {
+                "label": "rewardTokens",
+                "type": "t_array(t_address)dyn_storage"
+              },
+              {
+                "label": "stakeList",
+                "type": "t_array(t_address)dyn_storage"
+              },
+              {
+                "label": "dynamicRewardsInPool",
+                "type": "t_array(t_uint256)dyn_storage"
+              },
+              {
+                "label": "staticRewardsInPool",
+                "type": "t_array(t_uint256)dyn_storage"
+              }
+            ]
+          },
+          "t_contract(IERC20Upgradeable)800": {
+            "label": "contract IERC20Upgradeable"
+          },
+          "t_array(t_address)dyn_storage": {
+            "label": "address[]"
+          },
+          "t_array(t_uint256)dyn_storage": {
+            "label": "uint256[]"
+          },
+          "t_mapping(t_uint256,t_mapping(t_address,t_struct(UserInfo)1800_storage))": {
+            "label": "mapping(uint256 => mapping(address => struct GabrielV3.UserInfo))"
+          },
+          "t_mapping(t_address,t_struct(UserInfo)1800_storage)": {
+            "label": "mapping(address => struct GabrielV3.UserInfo)"
+          },
+          "t_struct(UserInfo)1800_storage": {
+            "label": "struct GabrielV3.UserInfo",
+            "members": [
+              {
+                "label": "amount",
+                "type": "t_uint256"
+              },
+              {
+                "label": "harvested",
+                "type": "t_bool"
+              },
+              {
+                "label": "nonHarvestedRewards",
+                "type": "t_array(t_uint256)dyn_storage"
+              }
+            ]
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          }
+        }
+      }
+    },
+    "519e2d86e86d765db44436388ce1bc5d78b5695131570afc66357fe410aacc6b": {
+      "address": "0xC745f8731858b4D9dA26B2dFF5d1A307A6B32255",
+      "txHash": "0x2b1e477bd31cb32679a50e51a1034e0913209f4812456236c6c5a8049c425898",
       "layout": {
         "storage": [
           {

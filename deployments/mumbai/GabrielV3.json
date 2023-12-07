@@ -1,5 +1,5 @@
 {
-  "address": "0x536161A88a506E4687E6DAedA5270AE710A3A651",
+  "address": "0xd95bF25D8E63975523bd5ba7d340A05794B6e4c0",
   "abi": [
     {
       "anonymous": false,
@@ -290,6 +290,25 @@
       "name": "harvest",
       "outputs": [],
       "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_pid",
+          "type": "uint256"
+        }
+      ],
+      "name": "harvesters",
+      "outputs": [
+        {
+          "internalType": "address[]",
+          "name": "",
+          "type": "address[]"
+        }
+      ],
+      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -729,6 +748,24 @@
     {
       "inputs": [
         {
+          "internalType": "uint256",
+          "name": "_sPercent",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_wPercent",
+          "type": "uint256"
+        }
+      ],
+      "name": "setRates",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "address",
           "name": "_sharks",
           "type": "address"
@@ -1037,5 +1074,5 @@
       "type": "function"
     }
   ],
-  "numDeployments": 3
+  "numDeployments": 1
 }

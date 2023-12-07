@@ -3,8 +3,10 @@ const { ethers, upgrades } = require('hardhat')
 module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
   // type proxy address for upgrade contract
   // deployer must have upgrade access
-  // const upgradeProxy = null // mumbai: '0x536161A88a506E4687E6DAedA5270AE710A3A651'
-  const upgradeProxy = '0xB1c5f44b6473EE2fdd22e5B65B971A8455442112'
+  const upgradeProxy = null
+  // mumbai: '0xd95bF25D8E63975523bd5ba7d340A05794B6e4c0'
+  // mainnet: '0xB1c5f44b6473EE2fdd22e5B65B971A8455442112'
+  // const upgradeProxy = '0xB1c5f44b6473EE2fdd22e5B65B971A8455442112'
 
   const { save, get } = deployments
   const { deployer } = await getNamedAccounts()
@@ -33,7 +35,7 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
     ]
     const extraArgs = [
       '0xbFb7af1d2450711A3187018973B395c6b14E0E3B',
-      1701900720,
+      1701943605,
       1080,
       420,
       250000000000000000000000n,
@@ -42,8 +44,8 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
     const rewardTokens = [
       '0xbFb7af1d2450711A3187018973B395c6b14E0E3B',
       '0x972Ac85E66d3daEa10C29E223B85e76954D36F81',
-      '0xE857F4Ca293fb73547a06De6282ea78EfE5829fE',
       '0x16CE02bdeA3bdBbbe644b399A2834488D4B22684',
+      '0xE857F4Ca293fb73547a06De6282ea78EfE5829fE',
     ]
     const staticRewardsInPool = [
       '100000000000000000000000',
@@ -102,8 +104,9 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
     )
 
     // hardhat verify --network r.. 0x
+    // npx hardhat verify --network <network> <address>
+    // npx hardhat verify --network mumbai 0xC745f8731858b4D9dA26B2dFF5d1A307A6B32255
   }
 }
 
 module.exports.tags = ['GabrielV3']
-module.exports.dependencies = ['ProfitToken', 'DividendToken']

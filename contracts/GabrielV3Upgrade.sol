@@ -11,7 +11,7 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 
 /// @title Archangel Reward Staking Pool V3 (GabrielV3)
 /// @notice Stake tokens to Earn Rewards.
-contract GabrielV3 is Initializable, UUPSUpgradeable, OwnableUpgradeable {
+contract GabrielV3Upgrade is Initializable, UUPSUpgradeable, OwnableUpgradeable {
     using SafeERC20Upgradeable for IERC20Upgradeable;
     using SafeMathUpgradeable for uint256;
 
@@ -77,17 +77,13 @@ contract GabrielV3 is Initializable, UUPSUpgradeable, OwnableUpgradeable {
     event Unstake(uint256 pid, address user, uint256 amount);
 
     /* ========== CONSTRUCTOR ========== */
-    // constructor() initializer {
-    //     // solhint-disable-previous-line no-empty-blocks
-    // }
-
     function initialize(
         ConstructorArgs memory constructorArgs,
         ExtraArgs memory extraArgs,
         uint256 _NORT,
         address[] memory _rewardTokens,
         uint256[] memory _staticRewardsInPool
-    ) public initializer {
+    ) public initializer onlyProxy {
         sPercent = constructorArgs.sPercent;
         wPercent = constructorArgs.wPercent;
         sharks = constructorArgs.sharks;
@@ -117,7 +113,7 @@ contract GabrielV3 is Initializable, UUPSUpgradeable, OwnableUpgradeable {
         PoolInfo storage pool = poolInfo[_pid];
         uint256 NORT = pool.NORT;
         require(_rewardTokens.length == NORT, "CRT: array length mismatch");
-        for (uint256 i; i < NORT; i++) {
+        for (uint256 i; i < NORT; ++i) {
             pool.rewardTokens[i] = _rewardTokens[i];
         }
     }
@@ -165,7 +161,7 @@ contract GabrielV3 is Initializable, UUPSUpgradeable, OwnableUpgradeable {
         );
         uint256 _pid = poolInfo.length - 1;
         PoolInfo storage pool = poolInfo[_pid];
-        for (uint256 i; i < _NORT; i++) {
+        for (uint256 i; i < _NORT; ++i) {
             pool.rewardTokens[i] = _rewardTokens[i];
             pool.dynamicRewardsInPool[i] = _staticRewardsInPool[i];
             pool.staticRewardsInPool[i] = _staticRewardsInPool[i];
@@ -188,19 +184,6 @@ contract GabrielV3 is Initializable, UUPSUpgradeable, OwnableUpgradeable {
             uint256 lpSupply = pool.staked;
             pending = reward.div(lpSupply);
         }
-        if (arrayLength > 0 && arrayLength == NORT) {
-            uint256 newPending = pending.add(user.nonHarvestedRewards[0]);
-            uint256 futureStake = newPending.add(user.amount);
-            if (futureStake <= pool.maxStake) {
-                pending = pending.add(user.nonHarvestedRewards[0]);
-                user.nonHarvestedRewards[0] = 0;
-            } else if (futureStake > pool.maxStake) {
-                user.nonHarvestedRewards[0] = user.nonHarvestedRewards[0].add(pending);
-                uint256 toMax = pool.maxStake.sub(user.amount);
-                pending = toMax;
-                user.nonHarvestedRewards[0] = user.nonHarvestedRewards[0].sub(toMax);
-            }    
-        }
         if (arrayLength == 0) {
             uint256 reward = user.amount * pool.staticRewardsInPool[0];
             uint256 lpSupply = pool.staked;
@@ -212,6 +195,19 @@ contract GabrielV3 is Initializable, UUPSUpgradeable, OwnableUpgradeable {
                 pending = toMax;
                 user.nonHarvestedRewards = new uint256[](NORT);
                 user.nonHarvestedRewards[0] = excess;
+            }    
+        }
+        if (arrayLength == NORT) {
+            uint256 newPending = pending.add(user.nonHarvestedRewards[0]);
+            uint256 futureStake = newPending.add(user.amount);
+            if (futureStake <= pool.maxStake) {
+                pending = pending.add(user.nonHarvestedRewards[0]);
+                user.nonHarvestedRewards[0] = 0;
+            } else if (futureStake > pool.maxStake) {
+                user.nonHarvestedRewards[0] = user.nonHarvestedRewards[0].add(pending);
+                uint256 toMax = pool.maxStake.sub(user.amount);
+                pending = toMax;
+                user.nonHarvestedRewards[0] = user.nonHarvestedRewards[0].sub(toMax);
             }    
         }
         if (pending > 0) {
@@ -247,18 +243,25 @@ contract GabrielV3 is Initializable, UUPSUpgradeable, OwnableUpgradeable {
         update(_pid);
         uint256 NORT = pool.NORT;
         uint256 arrayLength = user.nonHarvestedRewards.length;
+        if (arrayLength < NORT && arrayLength > 0) {
+            uint256 increaseBy = NORT.sub(arrayLength);
+            for (uint256 i; i < increaseBy; ++i) {
+                user.nonHarvestedRewards.push(0);
+            }
+            arrayLength = user.nonHarvestedRewards.length;
+        }
         user.harvested = true;
         if (compound && leaveRewards) {
             storeUnclaimedRewards(_pid, msg.sender);
             compoundArcha(_pid, msg.sender, leaveRewards);
         } else if (compound && !leaveRewards) {
-            for (uint256 i; i < NORT; i++) {
+            for (uint256 i; i < NORT; ++i) {
                 if (i == 0) { continue; }
                 uint256 reward = user.amount * pool.staticRewardsInPool[i];
                 uint256 lpSupply = pool.staked;
                 uint256 pending = reward.div(lpSupply);
                 pool.dynamicRewardsInPool[i] = pool.dynamicRewardsInPool[i].sub(pending);
-                if (arrayLength > 0 && arrayLength == NORT) {
+                if (arrayLength == NORT) {
                     pending = pending.add(user.nonHarvestedRewards[i]);
                     user.nonHarvestedRewards[i] = 0; 
                 }
@@ -271,12 +274,12 @@ contract GabrielV3 is Initializable, UUPSUpgradeable, OwnableUpgradeable {
         } else if (!compound && leaveRewards) {
             storeUnclaimedRewards(_pid, msg.sender);
         } else if (!compound && !leaveRewards) {
-            for (uint256 i; i < NORT; i++) {
+            for (uint256 i; i < NORT; ++i) {
                 uint256 reward = user.amount * pool.staticRewardsInPool[i];
                 uint256 lpSupply = pool.staked;
                 uint256 pending = reward.div(lpSupply);
                 pool.dynamicRewardsInPool[i] = pool.dynamicRewardsInPool[i].sub(pending);
-                if (arrayLength > 0 && arrayLength == NORT) {
+                if (arrayLength == NORT) {
                     pending = pending.add(user.nonHarvestedRewards[i]);
                     user.nonHarvestedRewards[i] = 0; 
                 }
@@ -311,7 +314,7 @@ contract GabrielV3 is Initializable, UUPSUpgradeable, OwnableUpgradeable {
         pool.unstaked = 0;
         _setTimeValues( _pid, extraArgs.openTime, extraArgs.waitPeriod, extraArgs.lockDuration);
         _changeNORT(_pid, _NORT);
-        for (uint256 i; i < _NORT; i++) {
+        for (uint256 i; i < _NORT; ++i) {
             pool.rewardTokens[i] = _rewardTokens[i];
             pool.dynamicRewardsInPool[i] = _staticRewardsInPool[i];
             pool.staticRewardsInPool[i] = _staticRewardsInPool[i];
@@ -333,7 +336,7 @@ contract GabrielV3 is Initializable, UUPSUpgradeable, OwnableUpgradeable {
     function reset(uint256 _pid, uint256 startIndex, uint256 endIndex) external onlyOwner {
         PoolInfo storage pool = poolInfo[_pid];
         uint256 arrayLength = pool.harvestList.length;
-        for (uint256 i = startIndex; i < endIndex; i++) {
+        for (uint256 i = startIndex; i < endIndex; ++i) {
             UserInfo storage user = userInfo[_pid][pool.harvestList[i]];
             user.harvested = false;
         }
@@ -364,18 +367,18 @@ contract GabrielV3 is Initializable, UUPSUpgradeable, OwnableUpgradeable {
         PoolInfo storage pool = poolInfo[_pid];
         uint256 NORT = pool.NORT;
         require(rewards.length == NORT, "SPR: array length mismatch");
-        for (uint256 i; i < NORT; i++) {
+        for (uint256 i; i < NORT; ++i) {
             pool.dynamicRewardsInPool[i] = rewards[i];
             pool.staticRewardsInPool[i] = rewards[i];
         }
     }
 
-    function setRates(uint256 _sPercent, uint256 _wPercent) external onlyOwner {
-        require(_sPercent.add(_wPercent) == 100, "must sum up to 100%");
-        sPercent = _sPercent;
-        wPercent = _wPercent;
-        emit RateUpdated(_sPercent, _wPercent);
-    }
+    // function setRates(uint256 _sPercent, uint256 _wPercent) external onlyOwner {
+    //     require(_sPercent.add(_wPercent) == 100, "must sum up to 100%");
+    //     sPercent = _sPercent;
+    //     wPercent = _wPercent;
+    //     emit RateUpdated(_sPercent, _wPercent);
+    // }
 
     function setSharkPoolAddress(address _sharks) external {
         require(msg.sender == sharks, "sharks: caller is not the current sharks");
@@ -471,7 +474,7 @@ contract GabrielV3 is Initializable, UUPSUpgradeable, OwnableUpgradeable {
         uint256 arrayLength = user.nonHarvestedRewards.length;
         if (arrayLength == 0) {
             user.nonHarvestedRewards = new uint256[](NORT);
-            for (uint256 x = 0; x < NORT; x++) {
+            for (uint256 x = 0; x < NORT; ++x) {
                 uint256 reward = user.amount * pool.staticRewardsInPool[x];
                 uint256 lpSupply = pool.staked;
                 uint256 pending = reward.div(lpSupply);
@@ -481,7 +484,7 @@ contract GabrielV3 is Initializable, UUPSUpgradeable, OwnableUpgradeable {
             }
         }
         if (arrayLength == NORT) {
-            for (uint256 x = 0; x < NORT; x++) {
+            for (uint256 x = 0; x < NORT; ++x) {
                 uint256 reward = user.amount * pool.staticRewardsInPool[x];
                 uint256 lpSupply = pool.staked;
                 uint256 pending = reward.div(lpSupply);
@@ -548,7 +551,7 @@ contract GabrielV3 is Initializable, UUPSUpgradeable, OwnableUpgradeable {
 
     // will return default values (false, 0) if !(alreadyInAPool)
     function checkIfAlreadyInAPool(address user) internal view returns (bool inAnotherPool, uint256 pid) {
-        for (uint256 poolId; poolId < poolInfo.length; poolId++) {
+        for (uint256 poolId; poolId < poolInfo.length; ++poolId) {
             if (poolInfo.length > 0) {
                 bool alreadyInAPool = inPool[user][poolId];
                 if (alreadyInAPool) {
@@ -563,10 +566,10 @@ contract GabrielV3 is Initializable, UUPSUpgradeable, OwnableUpgradeable {
         dynamicRewardsInPool = pool.dynamicRewardsInPool;
     }
 
-    function harvesters(uint256 _pid) external view returns (address[] memory) {
-        PoolInfo memory pool = poolInfo[_pid];
-        return pool.harvestList;
-    }
+    // function harvesters(uint256 _pid) external view returns (address[] memory) {
+    //     PoolInfo memory pool = poolInfo[_pid];
+    //     return pool.harvestList;
+    // }
 
     function harvests(uint256 _pid) external view returns (uint256) {
         PoolInfo memory pool = poolInfo[_pid];
@@ -574,7 +577,7 @@ contract GabrielV3 is Initializable, UUPSUpgradeable, OwnableUpgradeable {
     }
 
     function isInArray(address[] memory array, address item) internal pure returns (bool) {
-        for (uint256 i; i < array.length; i++) {
+        for (uint256 i; i < array.length; ++i) {
             if (array[i] == item) {
                 return true;
             }
@@ -603,13 +606,13 @@ contract GabrielV3 is Initializable, UUPSUpgradeable, OwnableUpgradeable {
             uint256 index = counter - 1;
             address[] memory newArray = new address[](counter);
             newArray[index] = pool.stakeList[index];
-            for (uint256 i; i < pool.stakeList.length; i++) {
+            for (uint256 i; i < pool.stakeList.length; ++i) {
                 if (!(isInArray(newArray, pool.stakeList[i]))) {
                     counter += 1;
                     index = counter - 1;
                     address[] memory oldArray = newArray;
                     newArray = new address[](counter);
-                    for (uint256 x; x < oldArray.length; x++) {
+                    for (uint256 x; x < oldArray.length; ++x) {
                         newArray[x] = oldArray[x];
                     }
                     newArray[index] = pool.stakeList[i];
@@ -640,37 +643,62 @@ contract GabrielV3 is Initializable, UUPSUpgradeable, OwnableUpgradeable {
         UserInfo memory user = userInfo[_pid][_user];
         uint256 NORT = pool.NORT;
         uint256 arrayLength = user.nonHarvestedRewards.length;
+        uint256[] memory notHarvested = new uint256[](NORT);
+        bool useMem;
+        if (arrayLength < NORT && arrayLength > 0) {
+            for (uint256 i; i < NORT; ++i) {
+                if (i < arrayLength) {
+                    notHarvested[i] = user.nonHarvestedRewards[i];
+                } else {
+                    notHarvested[i] = 0;
+                }
+            }
+            arrayLength = notHarvested.length;
+            useMem = true;
+        }
         if (block.timestamp > pool.lockTime && block.timestamp < pool.unlockTime && !(user.harvested) && pool.staked != 0) {
             uint256[] memory array = new uint256[](NORT);
-            for (uint256 i; i < NORT; i++) {
+            for (uint256 i; i < NORT; ++i) {
                 uint256 blocks = block.timestamp.sub(pool.lockTime);
                 uint256 reward = blocks * user.amount * pool.staticRewardsInPool[i];
                 uint256 lpSupply = pool.staked * pool.lockDuration;
                 uint256 pending = reward.div(lpSupply);
                 if (arrayLength == NORT) {
-                    pending = pending.add(user.nonHarvestedRewards[i]);
+                    if (useMem) {
+                        pending = pending.add(notHarvested[i]);
+                    } else {
+                        pending = pending.add(user.nonHarvestedRewards[i]);
+                    }
                 }
                 array[i] = pending;
             }
             return array;
         } else if (block.timestamp > pool.unlockTime && !(user.harvested) && pool.staked != 0) {
             uint256[] memory array = new uint256[](NORT);
-            for (uint256 i; i < NORT; i++) {                
+            for (uint256 i; i < NORT; ++i) {                
                 uint256 reward = user.amount * pool.staticRewardsInPool[i];
                 uint256 lpSupply = pool.staked;
                 uint256 pending = reward.div(lpSupply);
                 if (arrayLength == NORT) {
-                    pending = pending.add(user.nonHarvestedRewards[i]);
+                    if (useMem) {
+                        pending = pending.add(notHarvested[i]);
+                    } else {
+                        pending = pending.add(user.nonHarvestedRewards[i]);
+                    }
                 }
                 array[i] = pending;
             }
             return array;
         } else {
             uint256[] memory array = new uint256[](NORT);
-            for (uint256 i; i < NORT; i++) {
+            for (uint256 i; i < NORT; ++i) {
                 uint256 pending = 0;
                 if (arrayLength == NORT) {
-                    pending = user.nonHarvestedRewards[i];
+                    if (useMem) {
+                        pending = notHarvested[i];
+                    } else {
+                        pending = user.nonHarvestedRewards[i];
+                    }
                 }                
                 array[i] = pending;
             }
