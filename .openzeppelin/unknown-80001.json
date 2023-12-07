@@ -515,6 +515,233 @@
             "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:87"
           },
           {
+            "contract": "GabrielV3Initial",
+            "label": "inPool",
+            "type": "t_mapping(t_address,t_mapping(t_uint256,t_bool))",
+            "src": "contracts\\GabrielV3Initial.sol:19"
+          },
+          {
+            "contract": "GabrielV3Initial",
+            "label": "sharks",
+            "type": "t_address",
+            "src": "contracts\\GabrielV3Initial.sol:21"
+          },
+          {
+            "contract": "GabrielV3Initial",
+            "label": "sPercent",
+            "type": "t_uint256",
+            "src": "contracts\\GabrielV3Initial.sol:22"
+          },
+          {
+            "contract": "GabrielV3Initial",
+            "label": "whales",
+            "type": "t_address",
+            "src": "contracts\\GabrielV3Initial.sol:24"
+          },
+          {
+            "contract": "GabrielV3Initial",
+            "label": "wPercent",
+            "type": "t_uint256",
+            "src": "contracts\\GabrielV3Initial.sol:25"
+          },
+          {
+            "contract": "GabrielV3Initial",
+            "label": "poolInfo",
+            "type": "t_array(t_struct(PoolInfo)4770_storage)dyn_storage",
+            "src": "contracts\\GabrielV3Initial.sol:27"
+          },
+          {
+            "contract": "GabrielV3Initial",
+            "label": "userInfo",
+            "type": "t_mapping(t_uint256,t_mapping(t_address,t_struct(UserInfo)4778_storage))",
+            "src": "contracts\\GabrielV3Initial.sol:28"
+          }
+        ],
+        "types": {
+          "t_mapping(t_address,t_mapping(t_uint256,t_bool))": {
+            "label": "mapping(address => mapping(uint256 => bool))"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_mapping(t_uint256,t_bool)": {
+            "label": "mapping(uint256 => bool)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_bool": {
+            "label": "bool"
+          },
+          "t_array(t_struct(PoolInfo)4770_storage)dyn_storage": {
+            "label": "struct GabrielV3Initial.PoolInfo[]"
+          },
+          "t_struct(PoolInfo)4770_storage": {
+            "label": "struct GabrielV3Initial.PoolInfo",
+            "members": [
+              {
+                "label": "canStake",
+                "type": "t_bool"
+              },
+              {
+                "label": "canHarvest",
+                "type": "t_bool"
+              },
+              {
+                "label": "stakeToken",
+                "type": "t_contract(IERC20Upgradeable)800"
+              },
+              {
+                "label": "compounded",
+                "type": "t_uint256"
+              },
+              {
+                "label": "lockDuration",
+                "type": "t_uint256"
+              },
+              {
+                "label": "lockTime",
+                "type": "t_uint256"
+              },
+              {
+                "label": "maxStake",
+                "type": "t_uint256"
+              },
+              {
+                "label": "NORT",
+                "type": "t_uint256"
+              },
+              {
+                "label": "openTime",
+                "type": "t_uint256"
+              },
+              {
+                "label": "staked",
+                "type": "t_uint256"
+              },
+              {
+                "label": "unlockTime",
+                "type": "t_uint256"
+              },
+              {
+                "label": "unstaked",
+                "type": "t_uint256"
+              },
+              {
+                "label": "waitPeriod",
+                "type": "t_uint256"
+              },
+              {
+                "label": "harvestList",
+                "type": "t_array(t_address)dyn_storage"
+              },
+              {
+                "label": "rewardTokens",
+                "type": "t_array(t_address)dyn_storage"
+              },
+              {
+                "label": "stakeList",
+                "type": "t_array(t_address)dyn_storage"
+              },
+              {
+                "label": "dynamicRewardsInPool",
+                "type": "t_array(t_uint256)dyn_storage"
+              },
+              {
+                "label": "staticRewardsInPool",
+                "type": "t_array(t_uint256)dyn_storage"
+              }
+            ]
+          },
+          "t_contract(IERC20Upgradeable)800": {
+            "label": "contract IERC20Upgradeable"
+          },
+          "t_array(t_address)dyn_storage": {
+            "label": "address[]"
+          },
+          "t_array(t_uint256)dyn_storage": {
+            "label": "uint256[]"
+          },
+          "t_mapping(t_uint256,t_mapping(t_address,t_struct(UserInfo)4778_storage))": {
+            "label": "mapping(uint256 => mapping(address => struct GabrielV3Initial.UserInfo))"
+          },
+          "t_mapping(t_address,t_struct(UserInfo)4778_storage)": {
+            "label": "mapping(address => struct GabrielV3Initial.UserInfo)"
+          },
+          "t_struct(UserInfo)4778_storage": {
+            "label": "struct GabrielV3Initial.UserInfo",
+            "members": [
+              {
+                "label": "amount",
+                "type": "t_uint256"
+              },
+              {
+                "label": "harvested",
+                "type": "t_bool"
+              },
+              {
+                "label": "nonHarvestedRewards",
+                "type": "t_array(t_uint256)dyn_storage"
+              }
+            ]
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          }
+        }
+      }
+    },
+    "e38035190cd6ef2679a65a420af4d226029ca155eb91cc848c1951cb65c516a8": {
+      "address": "0x0f62ab6aa29f31129C0e4c84505B3B3c2617d791",
+      "txHash": "0x48360daf6bfcdb6afed4c9e567338c1465190d7cf353ebe299bfefe582a3cfd5",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:39"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:44"
+          },
+          {
+            "contract": "ERC1967UpgradeUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\ERC1967\\ERC1967UpgradeUpgradeable.sol:211"
+          },
+          {
+            "contract": "UUPSUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\UUPSUpgradeable.sol:107"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:36"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "_owner",
+            "type": "t_address",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:22"
+          },
+          {
+            "contract": "OwnableUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)49_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\access\\OwnableUpgradeable.sol:87"
+          },
+          {
             "contract": "GabrielV3",
             "label": "inPool",
             "type": "t_mapping(t_address,t_mapping(t_uint256,t_bool))",

@@ -3,10 +3,10 @@ const { ethers, upgrades } = require('hardhat')
 module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
   // type proxy address for upgrade contract
   // deployer must have upgrade access
-  const upgradeProxy = null
+  // const upgradeProxy = null
   // mumbai: '0xd95bF25D8E63975523bd5ba7d340A05794B6e4c0'
   // mainnet: '0xB1c5f44b6473EE2fdd22e5B65B971A8455442112'
-  // const upgradeProxy = '0xB1c5f44b6473EE2fdd22e5B65B971A8455442112'
+  const upgradeProxy = '0xd95bF25D8E63975523bd5ba7d340A05794B6e4c0'
 
   const { save, get } = deployments
   const { deployer } = await getNamedAccounts()
@@ -40,18 +40,22 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
       420,
       250000000000000000000000n,
     ]
-    const NORT = 4
+    const NORT = 6
     const rewardTokens = [
       '0xbFb7af1d2450711A3187018973B395c6b14E0E3B',
       '0x972Ac85E66d3daEa10C29E223B85e76954D36F81',
       '0x16CE02bdeA3bdBbbe644b399A2834488D4B22684',
       '0xE857F4Ca293fb73547a06De6282ea78EfE5829fE',
+      '0x2cEb626882154DD9E057da57DD8A58a1EF6459D2',
+      '0xC0b1E6a66FF66E1EaD2BE54CdaDfF1D9eb8d751D',
     ]
     const staticRewardsInPool = [
       '100000000000000000000000',
-      '650000000000000000000000000000',
+      '125000000000000000000000000000',
       '300000000000000000000000',
-      '500000000000000000000000',
+      '450000000000000000000000',
+      '100000000000000000000000000',
+      '24000000000000',
     ]
 
     console.log('ChainId:', chainId)
