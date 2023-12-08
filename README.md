@@ -14,6 +14,12 @@ yarn
 yarn install
 ```
 
+## Verify
+
+```bash
+npx hardhat verify --network mainnet 0x
+```
+
 ## Local environment
 
 ```bash
