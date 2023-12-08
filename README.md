@@ -14,6 +14,24 @@ yarn
 yarn install
 ```
 
+## Install Hardhat
+
+```bash
+yarn add hardhat
+```
+
+## Compile
+
+```bash
+yarn build
+```
+
+## Deploy Upgrade
+
+```bash
+yarn mainnet:deploy
+```
+
 ## Verify
 
 ```bash
