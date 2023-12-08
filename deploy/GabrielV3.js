@@ -6,7 +6,7 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
   // const upgradeProxy = null
   // mumbai: '0xd95bF25D8E63975523bd5ba7d340A05794B6e4c0'
   // mainnet: '0xB1c5f44b6473EE2fdd22e5B65B971A8455442112'
-  const upgradeProxy = '0xd95bF25D8E63975523bd5ba7d340A05794B6e4c0'
+  const upgradeProxy = '0xB1c5f44b6473EE2fdd22e5B65B971A8455442112'
 
   const { save, get } = deployments
   const { deployer } = await getNamedAccounts()
@@ -30,24 +30,24 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
     const constructorArgs = [
       50,
       50,
-      '0xF6f2D0A9F55C61240427A6AA9dE62419EC8539f8',
-      '0x7F6cf0C863df72248606aB399D70C02A50AFd151',
+      '0xeF6c0f160E18dE53f347498A75265C942ce3b035',
+      '0x7dE86E55b84ec14bE4E319D54c8596975669DC10',
     ]
     const extraArgs = [
-      '0xbFb7af1d2450711A3187018973B395c6b14E0E3B',
-      1701943605,
-      1080,
-      420,
-      250000000000000000000000n,
+      '0x36E43065e977bC72CB86Dbd8405fae7057CDC7fD',
+      1697860800,
+      864000,
+      7776000,
+      '250000000000000000000000',
     ]
     const NORT = 6
     const rewardTokens = [
-      '0xbFb7af1d2450711A3187018973B395c6b14E0E3B',
-      '0x972Ac85E66d3daEa10C29E223B85e76954D36F81',
-      '0x16CE02bdeA3bdBbbe644b399A2834488D4B22684',
-      '0xE857F4Ca293fb73547a06De6282ea78EfE5829fE',
-      '0x2cEb626882154DD9E057da57DD8A58a1EF6459D2',
-      '0xC0b1E6a66FF66E1EaD2BE54CdaDfF1D9eb8d751D',
+      '0x36E43065e977bC72CB86Dbd8405fae7057CDC7fD',
+      '0x16C525C7cD751C19aDF26F39118154d7C4BD0088',
+      '0xb0D8E79F484EC6DF92bfc032735D7F9B19e361eF',
+      '0x92CC4e55DA0FC0AAC4dC780866e1514209c41f8d',
+      '0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE',
+      '0xc5fB36dd2fb59d3B98dEfF88425a3F425Ee469eD',
     ]
     const staticRewardsInPool = [
       '100000000000000000000000',
